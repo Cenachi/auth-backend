@@ -24,8 +24,16 @@ class UserService {
         return repository.save(user)
     }
 
-    fun login(login:LoginDto){
-
+    fun login(login:LoginDto):User{
+        var userExists: Optional<User> = repository.findByEmail(login.email)
+        if(!userExists.isPresent){
+            throw Exception("User not found")
+        }
+        var user: User = userExists.get()
+        if(!user.comparePassword(login.password)){
+            throw Exception("Password is incorrect")
+        }
+        return user
     }
 
 }

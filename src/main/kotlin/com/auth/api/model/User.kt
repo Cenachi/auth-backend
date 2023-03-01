@@ -23,4 +23,8 @@ data class User (
         val passwordEncoder = BCryptPasswordEncoder()
         this.password = passwordEncoder.encode(password)
     }
+
+    fun comparePassword(password: String): Boolean{
+        return BCryptPasswordEncoder().matches(password,this.password)
+    }
 }
